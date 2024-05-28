@@ -27,14 +27,29 @@ const MongoDBStore = require("connect-mongo")(session);
 //const dbUrl = process.env.DB_URL 
 //mongoose.connect(dbUrl)
 // const dbUrl='mongodb://127.0.0.1:27017/yelp-camp';
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
-mongoose.connect(dbUrl);
+// const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+// mongoose.connect(dbUrl);
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
-});
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "connection error:"));
+// db.once("open", () => {
+//     console.log("Database connected");
+// });
+
+mongoose
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("MONGO CONNECTION OPEN!!!");
+  })
+  .catch((err) => {
+    console.log("OH NO MONGO CONNECTION ERROR!!!!");
+    console.log(err);
+  });
+
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
